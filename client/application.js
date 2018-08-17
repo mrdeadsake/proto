@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import { useRouterHistory } from 'react-router';
 import Navigation from './components/Navigation';
 
-import createBrowserHistory from 'history/lib/createBrowserHistory';
+import createBrowserHistory from 'history/createBrowserHistory';
 import routes from './routes';
 
 const history = useRouterHistory(createBrowserHistory)({

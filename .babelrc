@@ -1,4 +1,4 @@
 {
-  "presets": ["react", "stage-0", "es2015"],
+  "presets": ["babel-preset-react", "babel-preset-stage-0", "babel-preset-es2015"],
   "plugins": ["transform-object-assign", "transform-class-properties", "transform-runtime"]
 }
