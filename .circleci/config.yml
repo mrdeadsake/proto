@@ -96,7 +96,10 @@ workflows:
   version: 2
   build:
     jobs:
-      - build_ruby
+      - checkout
+      - build_ruby:
+          requires:
+            - checkout
       - deploy:
           requires:
             - build_ruby
