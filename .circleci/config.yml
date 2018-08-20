@@ -1,148 +1,25 @@
-version: 2.0
-
+version: 2
 jobs:
-  checkout:
+  build:
+    ...
+  deploy:
     docker:
-      - image: sidmohan/ruby-ci-2.3.1
-    working_directory: /home/circleci/proto
+      - image: buildpack-deps:trusty
     steps:
       - checkout
-
-  build_ruby:
-    docker:
-      - image: sidmohan/ruby-ci-2.3.1
-        environment:
-      - image: circleci/postgres:9.6-alpine
-        environment:
-          POSTGRES_USER: "circle"
-          POSTGRES_DB: proto
-          POSTGRES_PASSWORD: "password"
-      - image: redis:3.2
-
-
-    working_directory: /home/circleci/proto
-    steps:
       - run:
-          name: Bundle Install
-          command: bundle install --path vendor/bundle
-
-      - run:
-          name: Generate database.yml
-          command: mkdir -p config
-
-      - run:
-          name: echo test
+          name: Deploy Master to Heroku
           command: |
-            echo 'test:
-              adapter: postgresql
-              database: proto
-              username: "circle"
-              host: localhost' > config/database.yml
-
-      - run:
-          name: Wait for DB
-          command: timeout 15 bash -c 'while ! echo exit | nc localhost 5432; do sleep 10; done'
-
-      - run:
-          name: rake db:create db:schema:load
-          command: bundle exec rake db:create db:schema:load --trace
-
-      - run:
-          name: Test DB migrations
-          command: bundle exec rake db:migrate --trace
-
-      - run:
-          name: rake test
-          command: bundle exec rake test
-
-      - run:
-          name: Run Rubocop
-          command: bundle exec rake rubocop
-
-      - run:
-          name: brakeman
-          command: ./script/brakeman.sh
-
-
-      - persist_to_workspace:
-          root: /home/circleci/proto
-          paths:
-            - vendor/bundle
-  build_node:
-      docker:
-        - image: circleci/ruby:2.3.1-stretch-node-browsers
-      working_directory: /home/circleci/proto
-      steps:
-
-        - run:
-            name: npm rebuild node-sass
-            command: npm rebuild node-sass
-
-        - run:
-            name: Run NPM Install
-            command: npm install
-
-        - run:
-            name: Run NPM RUN build
-            command: npm run build
-
-        - save_cache:
-            key: v1-node-package-{{ checksum "package.json" }}
-            paths:
-              - /home/circleci/proto/node_modules
-
-        - persist_to_workspace:
-            root: /home/circleci/proto
-            paths:
-              - node_modules
-              - config/webpack.json
-              - public/*
-
-  deploy_image_prod:
-    docker:
-      - image: nuvi/deis-workflow-cli:v2.18.0
-    working_directory: /home/circleci/proto
-    steps:
-      - attach_workspace:
-          at: /home/circleci/proto
-
-      - setup_remote_docker   # (2)
-          #docker_layer_caching: true # (3)
-
-      # use a primary image that already has Docker (recommended)
-      # or install it during a build like we do here
-      - run:
-          name: Install Docker client
-          command: |
-            set -x
-            VER="17.03.0-ce"
-            curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
-            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
-            mv /tmp/docker/* /usr/bin
-
-      - run:
-          name: Build Docker Image
-          command: |
-            BRANCH=`echo ${CIRCLE_BRANCH} | sed "s/\//-/g"`
-            docker build -t nuvi/proto:$BRANCH-$CIRCLE_BUILD_NUM .
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push mrdeadsake/proto:$BRANCH-$CIRCLE_BUILD_NUM
-      - run:
-          name: push to Heroku
-          command: git push git@heroku.com:proto.git $CIRCLE_SHA1:refs/heads/master
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
 
 workflows:
   version: 2
-  build:
+  build-deploy:
     jobs:
-      - checkout
-      - build_ruby:
+      - build
+      - deploy:
           requires:
-            - checkout
-      - deploy_image_prod:
+            - build
           filters:
             branches:
-              only:
-                - prod
-          requires:
-            - build_ruby
+              only: master
