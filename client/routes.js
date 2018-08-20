@@ -1,12 +1,14 @@
 import React from 'react';
 import ProtoApp from './layouts/ProtoApp';
-import { Router, Route, IndexRoute, Redirect, IndexRedirect } from 'react-router';
+import BasePage from './layouts/BasePage';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-export default function routes (history) {
+export default function routes () {
     return (
-        <Router history={ history }>
-            <Route path="/" component={ ProtoApp }>
-            </Route>
+        <Router>
+        <div>
+            <Route path="/" component={ BasePage } />
+        </div>
         </Router>
     );
 }

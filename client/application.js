@@ -6,32 +6,22 @@ import ReactDOM from 'react-dom';
 import store from './store';
 import { Provider } from 'react-redux';
 
-import { useRouterHistory } from 'react-router';
+import { useQueries } from 'react-router';
 import Navigation from './components/Navigation';
 
-import createBrowserHistory from 'history/createBrowserHistory';
 import routes from './routes';
-
-const history = useRouterHistory(createBrowserHistory)({
-  basename: `/`,
-});
 
 
 Navigation.configure({
   sitePath: `/`,
-  history: history,
 });
 
 function renderAction () {
   ReactDOM.render((
       <Provider store={store}>
-      { routes(history) }
+      { routes() }
       </Provider>
     ), document.getElementById('react-container'));
-
-  history.listen(location => {
-
-  });
 }
 
 window.addEventListener('load', () => {

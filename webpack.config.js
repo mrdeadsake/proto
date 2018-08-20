@@ -25,7 +25,6 @@ module.exports = {
   },
   externals: {
     jquery: 'jQuery',
-    lodash: '_',
     numeral: 'numeral',
     'whatwg-fetch': 'fetch',
   },
