@@ -7,14 +7,6 @@ jobs:
     working_directory: /home/circleci/proto
     steps:
       - checkout
-      - save_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            - /home/circleci/malone
-      - save_cache:
-          key: v1-Procfile-{{ checksum "Procfile" }}
-          paths:
-            - /home/circleci/proto/Procfile
 
   build_ruby:
     docker:
@@ -30,12 +22,6 @@ jobs:
 
     working_directory: /home/circleci/proto
     steps:
-      - restore_cache:
-          keys:
-            - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          keys:
-            - v1-bundle-{{ checksum "Gemfile.lock" }}
       - run:
           name: Bundle Install
           command: bundle install --path vendor/bundle
@@ -77,15 +63,7 @@ jobs:
           name: brakeman
           command: ./script/brakeman.sh
 
-      - save_cache:
-          key: v1-bundle-{{ checksum "Gemfile.lock" }}
-          paths:
-            - /home/circleci/proto/vendor/bundle
-            - /usr/local/bundle/bin/*
-      - save_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            - /home/circleci/proto
+
       - persist_to_workspace:
           root: /home/circleci/proto
           paths:
@@ -95,13 +73,6 @@ jobs:
         - image: circleci/ruby:2.3.1-stretch-node-browsers
       working_directory: /home/circleci/proto
       steps:
-        - restore_cache:
-            keys:
-              - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-
-        - restore_cache:
-            keys:
-              - v1-node-package-{{ checksum "package.json" }}
 
         - run:
             name: npm rebuild node-sass
@@ -132,10 +103,6 @@ jobs:
       - image: nuvi/deis-workflow-cli:v2.18.0
     working_directory: /home/circleci/proto
     steps:
-      - restore_cache:
-          keys:
-            - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-            - v1-bundle-
       - attach_workspace:
           at: /home/circleci/proto
 
