@@ -82,4 +82,4 @@ production:
   <<: *default
   database: proto_production
   username: proto
-  password: <%= ENV['PROTO_DATABASE_PASSWORD'] %>
+  password: 'PROTO_DATABASE_PASSWORD'
