@@ -1,7 +1,9 @@
 version: 2
 jobs:
   build:
-    ...
+    - run:
+        name: Bundle Install
+        command: bundle install --path vendor/bundle
   deploy:
     docker:
       - image: buildpack-deps:trusty
