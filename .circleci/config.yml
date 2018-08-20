@@ -1,6 +1,10 @@
 version: 2.0
 
 jobs:
+  build:
+    docker:
+      - image buildpack-deps:trusty
+      image:
   checkout:
     docker:
       - image: buildpack-deps:trusty
@@ -79,8 +83,6 @@ jobs:
               - node_modules
               - config/webpack.json
               - public/*
-  build:
-    ...
   deploy:
     docker:
       - image: buildpack-deps:trusty
@@ -98,6 +100,9 @@ workflows:
     jobs:
       - checkout
       - build_ruby:
+          requires:
+            - checkout
+      - build_node:
           requires:
             - checkout
       - deploy:
