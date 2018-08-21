@@ -1,5 +1,6 @@
 require('./stylesheets/application');
 require('babel-polyfill');
+require('bootstrap');
 
 import React from 'react';
 import ReactDOM from 'react-dom';

@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, minimal-ui">
   <%= csrf_meta_tags %>
   <%= javascript_env_script_tag %>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
   <% if Rails.env =~ /production/ %>
     <%= javascript_include_tag webpack_asset_path("main") %>
   <% else %>

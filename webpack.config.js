@@ -85,8 +85,20 @@ module.exports = {
             },
           },
         ],
-        test: /\.(jpe?g|png|gif|ttf)$/,
+        test: /\.(jpe?g|png|gif|ttf|eot|woff2|woff|svg)$/,
         include: path.join(__dirname, 'client/'),
+      },
+      {
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+            },
+          },
+        ],
+        test: /\.(jpe?g|png|gif|ttf|eot|woff2|woff|svg)$/,
+        include: path.join(__dirname, 'bootstrap/'),
       },
     ],
   },

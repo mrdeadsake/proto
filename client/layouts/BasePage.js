@@ -26,7 +26,7 @@ class BasePage extends React.Component {
 
   render(){
     return(
-      <div className="basepage mx-medium mt-large">
+      <div className="martop-large">
         <Header user={this.props.user}></Header>
         <MainBody></MainBody>
         <Footer></Footer>
