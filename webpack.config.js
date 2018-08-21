@@ -112,5 +112,5 @@ module.exports = {
 
 if (isProduction) {
   // Hashing of this kind happens only in prod.
-  module.exports.output.filename = 'bundle-[name]-[hash].js';
+  //module.exports.output.filename = 'bundle-[name]-[hash].js';
 }
