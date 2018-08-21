@@ -1,14 +1,25 @@
 import React from 'react';
 import topicHelper from '../helpers/topicHelper';
+import Dropdown from './Dropdown';
 
 export default class Header extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      class:"state",
+    }
+  }
 
   render(){
     const columns=topicHelper.length;
     return(
-      <div>
-      <div className="row">
-        <h1>eQ Answer Network</h1>
+      <div className="header">
+      <div className="row between-on-large">
+        <h1 className="column large-6">eQ Answer Network</h1>
+        <div className="column large-6 login">
+          <button className="">login</button>
+        </div>
       </div>
       <div className="row">
       {topicHelper.map((topic, i)=>{
@@ -21,16 +32,23 @@ export default class Header extends React.Component {
 
   renderDropdown(topic) {
     return(
-      <div className="dropdown">
-        <button className="btn btn-secondary dropdown-toggle width-full" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {topic}
-        </button>
-        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li className="dropdown-item"><a  href="#">Action</a></li>
-          <li className="dropdown-item"><a href="#">Another action</a></li>
-          <li className="dropdown-item"><a href="#">Something else here</a></li>
-        </ul>
-      </div>
+      <Dropdown
+        defaultText={topic}
+        onChange={this.onHover}
+        valueKey="value"
+        textKey="text"
+        items={[{text:'item1', value:1}, {text:'item2', value:2}, {text:'item3', value:3}]}
+      />
       )
+  }
+
+  onHover = () => {
+    console.log(this)
+  //  this.setState({class: "open"});
+  }
+
+  onLeave = (ele) => {
+    //console.log(ele)
+    //this.setState({class: ""})
   }
 }

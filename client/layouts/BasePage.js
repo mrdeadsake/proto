@@ -26,7 +26,7 @@ class BasePage extends React.Component {
 
   render(){
     return(
-      <div className="martop-large">
+      <div >
         <Header user={this.props.user}></Header>
         <MainBody></MainBody>
         <Footer></Footer>

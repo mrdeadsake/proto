@@ -6458,16 +6458,10 @@ button.close {
     bottom: 20px;
   }
 }
-.clearfix:before,
-.clearfix:after,
-.dl-horizontal dd:before,
-.dl-horizontal dd:after,
-.container:before,
-.container:after,
-.container-fluid:before,
-.container-fluid:after,
-.row:before,
-.row:after,
+
+
+
+
 .form-horizontal .form-group:before,
 .form-horizontal .form-group:after,
 .btn-toolbar:before,
@@ -6493,7 +6487,6 @@ button.close {
   display: table;
   content: " ";
 }
-.clearfix:after,
 .dl-horizontal dd:after,
 .container:after,
 .container-fluid:after,

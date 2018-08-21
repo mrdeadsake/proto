@@ -30,6 +30,7 @@ export default class Dropdown extends React.Component {
     this.state = {
       showItems: false,
       highlightedIndex: -1,
+      highlighted: false,
     };
   }
 
@@ -38,6 +39,7 @@ export default class Dropdown extends React.Component {
   }
 
   onBlur = () => {
+    console.log('blur')
     this.setState({
       showItems: false,
       highlightedIndex: -1,
@@ -101,10 +103,11 @@ export default class Dropdown extends React.Component {
   onMouseLeave = () => {
     if (this.state.showItems) {
       this.mouseLeaveTimeout = window.setTimeout(() => {
+        console.log(this.node)
         if (this.node) {
-          this.node.blur();
+          this.onBlur();
         }
-      }, 500);
+      }, 50);
     }
   }
 
@@ -129,7 +132,7 @@ export default class Dropdown extends React.Component {
         [this.props.valueKey]: value,
       }) || {};
     }
-    const className = `dropdown ${this.props.className}`
+    const className = `dropdown ${this.state.showItems ? "highlighted" : ""}`
     return (
       <div
         id={ this.props.id }
@@ -140,9 +143,10 @@ export default class Dropdown extends React.Component {
         onMouseMove={ this.onMouseMove }
         onMouseLeave={ this.onMouseLeave }
         onKeyDown={ this.onKeyDown }
+        onMouseEnter={this.onClick}
         ref={ n => this.node = n }
       >
-        <div className="dropdown__container">
+        <div className={`dropdown__container ${this.state.showItems ? "highlighted" : ""}`}>
           { this.renderSelectedText(value) }
           <div className="dropdown__arrow" />
         </div>
