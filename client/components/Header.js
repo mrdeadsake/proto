@@ -6,10 +6,15 @@ export default class Header extends React.Component {
   render(){
     const columns=topicHelper.length;
     return(
+      <div>
+      <div className="row">
+        <h1>eQ Answer Network</h1>
+      </div>
       <div className="row">
       {topicHelper.map((topic, i)=>{
         return(<div key={i} className={`column large-${12/columns} medium-${12/columns} small-${12/columns*2}`}>{this.renderDropdown(topic)}</div>)
       })}
+      </div>
       </div>
     )
   }
