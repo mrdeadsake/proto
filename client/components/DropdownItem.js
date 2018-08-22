@@ -8,6 +8,7 @@ export default class DropdownItem extends React.Component {
     text: PropTypes.string.isRequired,
     value: PropTypes.any.isRequired,
     className: PropTypes.string,
+    onMouseOver: PropTypes.func,
   };
 
   static defaultProps = {
@@ -20,11 +21,19 @@ export default class DropdownItem extends React.Component {
     this.props.onSelect(this.props.value);
   }
 
+  onMouseOver = (evt) => {
+    evt.target.className += " dropdown__item--highlighted";
+  }
+
+  onMouseLeave = (evt) => {
+    evt.target.className = "dropdown__item";
+  }
+
   render () {
     const className = `dropdown__item ${this.props.highlighted ? "dropdown__item--highlighted" : ""} ${this.props.className}`;
 
     return (
-      <div className={ className } onClick={ this.onClick }>
+      <div className={ className } onClick={ this.onClick } onMouseOver={this.onMouseOver} onMouseLeave={this.onMouseLeave}>
         { this.props.text }
       </div>
     );

@@ -8,8 +8,8 @@ import { fetchUser } from '../actions/userActions';
 
 class BasePage extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       user: undefined,
     }
@@ -20,6 +20,7 @@ class BasePage extends React.Component {
   }
 
   componentDidMount() {
+    document.title = "Home"
     this.props.fetchUser(123);
     this.setState({user: this.props.user})
   }

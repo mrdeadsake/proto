@@ -33,6 +33,7 @@ export default class Header extends React.Component {
   renderDropdown(topic) {
     return(
       <Dropdown
+        root={'/'}
         defaultText={topic}
         onChange={this.onHover}
         valueKey="value"
@@ -43,7 +44,6 @@ export default class Header extends React.Component {
   }
 
   onHover = () => {
-    console.log(this)
   //  this.setState({class: "open"});
   }
 

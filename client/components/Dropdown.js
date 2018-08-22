@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 import DropdownItem from './DropdownItem';
+import {Link} from 'react-router-dom';
 
 
 export default class Dropdown extends React.Component {
@@ -39,7 +40,6 @@ export default class Dropdown extends React.Component {
   }
 
   onBlur = () => {
-    console.log('blur')
     this.setState({
       showItems: false,
       highlightedIndex: -1,
@@ -103,11 +103,18 @@ export default class Dropdown extends React.Component {
   onMouseLeave = () => {
     if (this.state.showItems) {
       this.mouseLeaveTimeout = window.setTimeout(() => {
-        console.log(this.node)
         if (this.node) {
           this.onBlur();
         }
       }, 50);
+    }
+  }
+
+  onMouseEnter = (evt) => {
+    if (!this.state.showItems) {
+      this.setState({showItems: true})
+    } else if (this.state.showItems) {
+      this.setState({showItems: false})
     }
   }
 
@@ -132,7 +139,7 @@ export default class Dropdown extends React.Component {
         [this.props.valueKey]: value,
       }) || {};
     }
-    const className = `dropdown ${this.state.showItems ? "highlighted" : ""}`
+    const className = `dropdown__container ${this.state.showItems ? "highlighted" : ""}`
     return (
       <div
         id={ this.props.id }
@@ -143,17 +150,27 @@ export default class Dropdown extends React.Component {
         onMouseMove={ this.onMouseMove }
         onMouseLeave={ this.onMouseLeave }
         onKeyDown={ this.onKeyDown }
-        onMouseEnter={this.onClick}
+        onMouseEnter={this.onMouseEnter}
         ref={ n => this.node = n }
       >
-        <div className={`dropdown__container ${this.state.showItems ? "highlighted" : ""}`}>
-          { this.renderSelectedText(value) }
+      <Link className={`dropdown__link ${this.state.showItems ? "highlighted" : ""}`} to={this.renderLink(this.props.defaultText)}>
+      { this.renderSelectedText(value) }
+      </Link>
+          
           <div className="dropdown__arrow" />
-        </div>
+
 
           { this.renderItems() }
       </div>
     );
+  }
+
+  renderLink(link) {
+    let temp = `${this.props.root}topics/${link}`;
+
+    return temp.includes("Home") ? temp.replace('/topics', '').replace(" ", "") : temp.replace(" ", "")
+    
+
   }
 
   renderSelectedText (value) {
@@ -196,6 +213,7 @@ export default class Dropdown extends React.Component {
         text={ item[this.props.textKey] }
         key={ item[this.props.valueKey] }
         onSelect={ onSelect }
+        onMouseOver={this.onMouseOver}
       />
     );
   }
