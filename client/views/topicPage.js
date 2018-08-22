@@ -4,9 +4,10 @@ import Footer from '../components/Footer';
 import MainBody from '../components/MainBody';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchUser } from '../actions/userActions';
+import { fetchTopics } from '../actions/topicActions';
+import {fetchUser} from "../actions/userActions";
 
-export default class TopicPage extends React.Component {
+class TopicPage extends React.Component {
 
   static propTypes = {
     pageName: PropTypes.string,
@@ -18,17 +19,24 @@ export default class TopicPage extends React.Component {
 
   componentDidMount() {
     document.title = `EQ ${this.props.pageName}`;
+    this.props.fetchTopics();
   }
 
   render(){
     return(
       <div >
-        <Header root={this.props.root}/>
+        <Header topics={this.props.topics}/>
         {this.props.pageName}
         <Footer/>
       </div>
       )
   }
 }
+
+const mapStateToProps = state => ({
+    topics: state.topics.items.topics,
+});
+
+export default connect(mapStateToProps, { fetchTopics })(TopicPage);
 
 

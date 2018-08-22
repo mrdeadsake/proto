@@ -1,6 +1,9 @@
 class TopicsController < ApplicationController
   def index
-    render({:json=>{username: "derek"}})
+    topics=Topic.all.map{|topic| {topic: topic, subtopics: topic.subtopics}}
+
+
+    render({:json=>{topics: topics}})
   end
 
   def show

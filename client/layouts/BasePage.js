@@ -5,6 +5,7 @@ import MainBody from '../components/MainBody';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchUser } from '../actions/userActions';
+import { fetchTopics } from '../actions/topicActions';
 
 class BasePage extends React.Component {
 
@@ -22,13 +23,14 @@ class BasePage extends React.Component {
   componentDidMount() {
     document.title = "Home"
     this.props.fetchUser(123);
+    this.props.fetchTopics();
     this.setState({user: this.props.user})
   }
 
   render(){
     return(
       <div >
-        <Header user={this.props.user}></Header>
+        <Header topics={this.props.topics}></Header>
         <MainBody></MainBody>
         <Footer></Footer>
       </div>
@@ -37,7 +39,8 @@ class BasePage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.users.item,
+    user: state.users.item,
+    topics: state.topics.items.topics,
 });
 
-export default connect(mapStateToProps, { fetchUser })(BasePage);
+export default connect(mapStateToProps, { fetchUser, fetchTopics })(BasePage);

@@ -1,6 +1,8 @@
 import React from 'react';
 import topicHelper from '../helpers/topicHelper';
 import Dropdown from './Dropdown';
+import PropTypes from 'prop-types';
+
 
 export default class Header extends React.Component {
 
@@ -11,8 +13,16 @@ export default class Header extends React.Component {
     }
   }
 
+  static propTypes = {
+    topics: PropTypes.array,
+  }
+
+  static defaultProps = {
+    topics: [],
+  }
+
   render(){
-    const columns=topicHelper.length;
+    const columns=this.props.topics.length;
     return(
       <div className="header">
       <div className="row between-on-large">
@@ -22,7 +32,7 @@ export default class Header extends React.Component {
         </div>
       </div>
       <div className="row">
-      {topicHelper.map((topic, i)=>{
+      {this.props.topics.map((topic, i)=>{
         return(<div key={i} className={`column large-${12/columns} medium-${12/columns} small-${12/columns*2}`}>{this.renderDropdown(topic)}</div>)
       })}
       </div>
@@ -34,11 +44,11 @@ export default class Header extends React.Component {
     return(
       <Dropdown
         root={'/'}
-        defaultText={topic}
+        defaultText={topic['topic']['name']}
         onChange={this.onHover}
-        valueKey="value"
-        textKey="text"
-        items={[{text:'item1', value:1}, {text:'item2', value:2}, {text:'item3', value:3}]}
+        valueKey="id"
+        textKey="name"
+        items={topic['subtopics']}
       />
       )
   }
