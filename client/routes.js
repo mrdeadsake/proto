@@ -1,7 +1,7 @@
 import React from 'react';
 import ProtoApp from './layouts/ProtoApp';
 import BasePage from './layouts/BasePage';
-import TopicPage from './views/TopicPage';
+import TopicPage from './views/topicPage';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
 export default function routes () {
