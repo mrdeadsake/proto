@@ -159,18 +159,17 @@ export default class Dropdown extends React.Component {
           
           <div className="dropdown__arrow" />
 
+       <div className="dropdown__item" onClick={ this.onClick } onMouseOver={this.onMouseOver} onMouseLeave={this.onMouseLeave}>
 
           { this.renderItems() }
+          </div>
       </div>
     );
   }
 
   renderLink(link) {
     let temp = `${this.props.root}topics/${link}`;
-
     return temp.includes("Home") ? temp.replace('/topics', '').replace(" ", "") : temp.replace(" ", "")
-    
-
   }
 
   renderSelectedText (value) {
@@ -190,10 +189,7 @@ export default class Dropdown extends React.Component {
 
   renderItems () {
     if (this.state.showItems) {
-      const className = ['dropdown__items'];
-      if (this.props.alignRight) {
-        className.push('dropdown__items--right');
-      }
+      const className = ['dropdown__items pady-xsmall'];
       const renderItem = this.props.renderDropdownItem || this.renderDropdownItem;
 
       return (

@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Link} from 'react-router-dom';
+
 
 export default class DropdownItem extends React.Component {
   static propTypes = {
@@ -12,7 +14,7 @@ export default class DropdownItem extends React.Component {
   };
 
   static defaultProps = {
-    className: '',
+    className: 'dropdown__item',
   };
 
   onClick = (evt) => {
@@ -21,21 +23,29 @@ export default class DropdownItem extends React.Component {
     this.props.onSelect(this.props.value);
   }
 
+  onComponentDidMount = () => {
+    console.log(this.props.value)
+  }
+
   onMouseOver = (evt) => {
-    evt.target.className += " dropdown__item--highlighted";
+    evt.target.className += " dropdown__link--highlighted";
   }
 
   onMouseLeave = (evt) => {
-    evt.target.className = "dropdown__item";
+    evt.target.className = "dropdown__link";
   }
 
   render () {
-    const className = `dropdown__item ${this.props.highlighted ? "dropdown__item--highlighted" : ""} ${this.props.className}`;
-
+    const text = this.props.text;
     return (
-      <div className={ className } onClick={ this.onClick } onMouseOver={this.onMouseOver} onMouseLeave={this.onMouseLeave}>
-        { this.props.text }
-      </div>
+          <Link className="dropdown__link" to={this.renderLink(text)} onMouseOver={this.onMouseOver} onMouseLeave={this.onMouseLeave}>
+            { text }
+          </Link>
     );
+  }
+
+  renderLink(link) {
+    let temp = `/topics/${link}`;
+    return temp.includes("Home") ? temp.replace('/topics', '').replace(" ", "") : temp.replace(" ", "")
   }
 }

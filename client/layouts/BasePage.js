@@ -22,8 +22,6 @@ class BasePage extends React.Component {
 
   componentDidMount() {
     document.title = "Home"
-    this.props.fetchUser(123);
-    this.props.fetchTopics();
     this.setState({user: this.props.user})
   }
 

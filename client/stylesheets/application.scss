@@ -96,13 +96,14 @@ $dropdowncolor: #343434;
   padding-top: 3px;
   padding-bottom: 3px;
   text-align: center;
-  &--highlighted {
-      box-shadow: 0px 0px 7px #282828 inset;
-  }
 }
 
 a.dropdown__link {
   color: black;
+  display: block;
+  &--highlighted {
+      box-shadow: 0px 0px 7px #282828 inset;
+  }
 }
 
 .basepage {
@@ -119,5 +120,12 @@ a.dropdown__link {
 
 .construction {
   max-width: 800px;
+}
+
+.footer {
+  background-color: #666;
+  min-height: 28px;
+  background-image:url('../images/footer.jpg');
+  color: white;
 }
 

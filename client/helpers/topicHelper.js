@@ -1,10 +1,15 @@
 const topicHelper = [
-  'Home',
   'Health',
-  "Living Alone",
-  "Mentally Active",
+  "LivingAlone",
+  "MentallyActive",
   "Transportation",
-  "Services"
+  "Services",
+  "Exercise",
+  "Dieting",
+  "DietarySupplements",
+  "Sleep",
+  "Diabetes",
+  "Cancer"
 ];
 
 export default topicHelper;
